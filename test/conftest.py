@@ -27,12 +27,7 @@ def browser():
 
 @pytest.fixture
 def board_api_client() -> BoardsApi:
-    return BoardsApi(base_url, token)
-
-
-@pytest.fixture
-def board_api_client_no_auth() -> BoardsApi:
-    return BoardsApi(base_url, '')
+    return BoardsApi(base_url, api_key, token)
 
 
 @pytest.fixture
