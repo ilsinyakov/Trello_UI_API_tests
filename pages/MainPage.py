@@ -1,13 +1,42 @@
+from time import sleep
 from allure import step
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-# from selenium.webdriver.support.ui import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as EC
+from ConfigProvider import ConfigProvider
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 
 class MainPage:
-    def __init__(self, driver: WebDriver) -> None:
+    def __init__(self, driver: WebDriver, cloud_session_token: str) -> None:
         self.driver = driver
+        self.url = ConfigProvider().get("ui", "main_page_url")
+        self.cloud_session_token = cloud_session_token
+
+    @step('Open main page')
+    def go(self):
+        self.driver.get(self.url)
+        cookie = {
+            'name': 'cloud.session.token', 'value': self.cloud_session_token
+            }
+        sleep(10)
+        self.driver.add_cookie(cookie)
+        sleep(10)
+
+        header_avatar = None
+        i = 0
+        while header_avatar is None and i < 5:
+            i += 1
+            self.driver.refresh()
+            try:
+                header_avatar = WebDriverWait(self.driver, 10).until(
+                    EC.visibility_of_element_located(
+                        (By.CSS_SELECTOR,
+                         '[data-testid="header-member-menu-avatar"]')
+                         ))
+            except TimeoutException:
+                header_avatar = None
 
     @step('Create board')
     def create_board(self, name) -> None:

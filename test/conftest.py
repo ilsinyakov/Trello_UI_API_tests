@@ -1,6 +1,8 @@
 import allure
 from selenium import webdriver
 import pytest
+
+from pages.AuthPage import AuthPage
 from api.BoardsApi import BoardsApi
 from ConfigProvider import ConfigProvider
 from DataProvider import DataProvider
@@ -49,3 +51,21 @@ def delete_board():
 @pytest.fixture
 def test_data():
     return DataProvider()
+
+
+@pytest.fixture(scope="session")
+def cloud_session_token() -> str:
+    timeout = int(ConfigProvider().get("ui", "timeout"))
+    browser = webdriver.Chrome()
+    browser.implicitly_wait(timeout)
+    browser.maximize_window()
+
+    email = DataProvider().get("email")
+    password = DataProvider().get("password")
+
+    auth_page = AuthPage(browser)
+    auth_page.go()
+
+    auth_page.login_as(email, password)
+
+    return auth_page.get_cloud_session_token()

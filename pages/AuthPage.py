@@ -44,6 +44,7 @@ class AuthPage:
             find_element(By.CSS_SELECTOR, '[href^="https://trello.com"]')
         trello_link.click()
 
-    @step('Get current url')
-    def get_current_url(self) -> str:
-        return self.driver.current_url
+    @step('Get cloud session token')
+    def get_cloud_session_token(self) -> str:
+        print(self.driver.get_cookie('cloud.session.token')['value'])
+        return self.driver.get_cookie('cloud.session.token')['value']
