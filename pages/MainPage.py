@@ -1,4 +1,4 @@
-from time import sleep
+# from time import sleep
 from allure import step
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -20,9 +20,7 @@ class MainPage:
         cookie = {
             'name': 'cloud.session.token', 'value': self.cloud_session_token
             }
-        sleep(10)
         self.driver.add_cookie(cookie)
-        sleep(10)
 
         header_avatar = None
         i = 0
@@ -30,7 +28,7 @@ class MainPage:
             i += 1
             self.driver.refresh()
             try:
-                header_avatar = WebDriverWait(self.driver, 10).until(
+                header_avatar = WebDriverWait(self.driver, 5).until(
                     EC.visibility_of_element_located(
                         (By.CSS_SELECTOR,
                          '[data-testid="header-member-menu-avatar"]')

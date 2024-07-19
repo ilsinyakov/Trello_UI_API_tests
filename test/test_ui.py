@@ -10,4 +10,4 @@ from pages.MainPage import MainPage
 def test_create_board(browser, cloud_session_token):
     main_page = MainPage(browser, cloud_session_token)
     main_page.go()
-    sleep(40)
+    sleep(10)
