@@ -37,7 +37,7 @@ class MainPage:
                 header_avatar = None
 
     @step('Create board')
-    def create_board(self, name) -> None:
+    def create_board(self, board_name: str) -> None:
         create_board_button = self.driver.\
             find_element(By.CSS_SELECTOR, '[data-testid="create-board-tile"]')
         create_board_button.click()
@@ -45,9 +45,17 @@ class MainPage:
         name_field = self.driver.\
             find_element(By.CSS_SELECTOR,
                          '[data-testid="create-board-title-input"]')
-        name_field.send_keys(name)
+        name_field.send_keys(board_name)
 
         create_board_submit_button = self.driver.\
             find_element(By.CSS_SELECTOR,
                          '[data-testid="create-board-submit-button"]')
         create_board_submit_button.click()
+
+    def is_board_present(self, board_name: str) -> bool:
+        board_name_element = self.driver.\
+            find_element(By.CSS_SELECTOR, '[data-testid="board-name-display"]')
+        if board_name_element.text == board_name:
+            return True
+        else:
+            return False
