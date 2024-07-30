@@ -9,11 +9,11 @@ from pages.BoardPage import BoardPage
 
 @allure.feature('Board')
 @allure.severity(severity_level.BLOCKER)
-def test_create_board(browser, cloud_session_token):
+def test_create_board(browser, cloud_session_token, board_api_client):
     main_page = MainPage(browser, cloud_session_token)
     main_page.go()
 
-    board_name = 'Test_board_2000'
+    board_name = 'Test_board_2002'
     main_page.create_board(board_name)
 
     board_page = BoardPage(browser, browser.current_url)
@@ -21,3 +21,7 @@ def test_create_board(browser, cloud_session_token):
     with step('Check that new board name is present'):
         assert board_page.is_board_present(board_name), \
             'New board name is not present'
+
+    status_code = board_api_client.delete_board_by_name(board_name)
+    with step('Check that the created board has been deleted'):
+        assert status_code == 200, 'The created board has not been deleted'

@@ -29,23 +29,24 @@ def browser():
 
 @pytest.fixture
 def board_api_client() -> BoardsApi:
-    return BoardsApi(base_url, api_key, token)
+    with allure.step('Create boards API client'):
+        return BoardsApi(base_url, api_key, token)
 
 
-@pytest.fixture
-def board_id_to_delete() -> str:
-    api = BoardsApi(base_url, token)
-    json = api.post_board('to_delete')
-    return json["id"]
+# @pytest.fixture
+# def board_id_to_delete() -> str:
+#     api = BoardsApi(base_url, token)
+#     json = api.post_board('to_delete')
+#     return json["id"]
 
 
-@pytest.fixture
-def delete_board():
-    dictionary = {"board_id": ""}
-    yield dictionary
+# @pytest.fixture
+# def delete_board():
+#     dictionary = {"board_id": ""}
+#     yield dictionary
 
-    api = BoardsApi(base_url, token)
-    api.delete_board(dictionary.get("board_id"))
+#     api = BoardsApi(base_url, token)
+#     api.delete_board(dictionary.get("board_id"))
 
 
 @pytest.fixture
