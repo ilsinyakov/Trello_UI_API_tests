@@ -1,4 +1,4 @@
-# from time import sleep
+from time import sleep
 from allure import step
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -36,7 +36,7 @@ class MainPage:
             except TimeoutException:
                 header_avatar = None
 
-    @step('Create board')
+    @step('Create board by UI')
     def create_board(self, board_name: str) -> None:
         create_board_button = self.driver.\
             find_element(By.CSS_SELECTOR, '[data-testid="create-board-tile"]')
@@ -59,3 +59,10 @@ class MainPage:
             return True
         else:
             return False
+
+    @step('Go to board')
+    def go_to_board(self, board_name: str) -> None:
+        board_link = self.driver.\
+            find_element(By.XPATH, f'//div[@title="{board_name}"]/ancestor::a')
+        board_link.click()
+        sleep(10)

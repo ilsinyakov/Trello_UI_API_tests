@@ -9,6 +9,7 @@ from pages.BoardPage import BoardPage
 
 @allure.feature('Board')
 @allure.severity(severity_level.BLOCKER)
+@allure.title('Test create board by UI')
 def test_create_board(browser, cloud_session_token, board_api_client):
     main_page = MainPage(browser, cloud_session_token)
     main_page.go()
@@ -25,3 +26,19 @@ def test_create_board(browser, cloud_session_token, board_api_client):
     status_code = board_api_client.delete_board_by_name(board_name)
     with step('Check that the created board has been deleted'):
         assert status_code == 200, 'The created board has not been deleted'
+
+
+@allure.feature('Board')
+@allure.severity(severity_level.CRITICAL)
+@allure.title('Test create board by UI')
+def test_delete_board(browser, cloud_session_token, board_api_client):
+    board_name = 'Board to delete'
+    board_api_client.create_board(board_name)
+
+    main_page = MainPage(browser, cloud_session_token)
+    main_page.go()
+
+    main_page.go_to_board(board_name)
+
+    board_page = BoardPage(browser, browser.current_url)
+    board_page.delete_board()

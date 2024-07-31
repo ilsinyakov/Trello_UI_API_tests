@@ -8,17 +8,16 @@ class BoardsApi:
         self.api_key = api_key
         self.token = token
 
-    # def post_board(self, name: str) -> dict:
-    #     path = f'{self.base_url}/boards'
+    @step('Create board by API')
+    def create_board(self, board_name: str) -> dict:
+        path = (
+            f'{self.base_url}/boards/?name={board_name}'
+            f'&key={self.api_key}&token={self.token}'
+        )
 
-    #     header = {
-    #         "Cookie": f"cloud.session.token={self.token}"
-    #     }
+        resp = requests.post(path)
+        return resp.json()
 
-    #     body = {"name": name}
-
-    #     resp = requests.post(path, json=body, headers=header)
-    #     return resp.json()
     @step('Get board list by API')
     def get_board_list(self) -> list:
         path = (
@@ -35,9 +34,6 @@ class BoardsApi:
             f'{board_id}?key={self.api_key}&token={self.token}'
         )
 
-        # header = {
-        #     "Cookie": f"cloud.session.token={self.token}"
-        # }
         resp = requests.delete(path)
         return resp.status_code
 

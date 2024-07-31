@@ -1,5 +1,5 @@
-# from time import sleep
-# from allure import step
+from time import sleep
+from allure import step
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 # from ConfigProvider import ConfigProvider
@@ -20,3 +20,16 @@ class BoardPage:
             return True
         else:
             return False
+
+    @step('Delete board by UI')
+    def delete_board(self) -> None:
+        with step('Click menu button'):
+            menu_button = self.driver.\
+                find_element(By.CSS_SELECTOR, '[aria-label="Меню"]')
+            menu_button.click()
+
+        with step('Click close board button'):
+            close_board_button = self.driver.\
+                find_element(By.CLASS_NAME, 'js-close-board')
+            close_board_button.click()
+            sleep(5)

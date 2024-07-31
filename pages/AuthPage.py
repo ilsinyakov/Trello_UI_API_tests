@@ -35,7 +35,7 @@ class AuthPage:
         login_button = self.driver.find_element(By.ID, 'login-submit')
         login_button.click()
 
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 20).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR,
                                               '[href^="https://trello.com"]'))
             )
