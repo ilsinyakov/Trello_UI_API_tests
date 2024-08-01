@@ -1,4 +1,4 @@
-# from time import sleep
+from time import sleep
 from allure import step
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -51,3 +51,30 @@ class BoardPage:
                              '[data-testid="close-board-delete-board-button"]'
                              )
             delete_board_button.click()
+
+    @step('Create list by UI')
+    def create_list(self, list_name: str) -> None:
+        with step('Click create list button'):
+            sleep(3)
+            create_list_button = self.driver.\
+                find_element(By.CSS_SELECTOR,
+                             '[data-testid="list-composer-button"]'
+                             )
+            create_list_button.click()
+            sleep(3)
+
+        with step('Fill list name text area'):
+            list_name_text_area = self.driver.\
+                find_element(By.CSS_SELECTOR,
+                             '[data-testid="list-name-textarea"]'
+                             )
+            list_name_text_area.send_keys(list_name)
+            sleep(3)
+
+        with step('Click submit button'):
+            submit_button = self.driver.\
+                find_element(By.CSS_SELECTOR,
+                             '[data-testid="list-composer-add-list-button"]'
+                             )
+            submit_button.click()
+            sleep(3)

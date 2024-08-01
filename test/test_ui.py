@@ -48,3 +48,20 @@ def test_delete_board(browser, cloud_session_token, board_api_client):
         assert not main_page.is_board_present('board_name'), \
             'Deleted board is present on main page'
 
+
+@allure.feature('Card')
+@allure.severity(severity_level.BLOCKER)
+@allure.title('Test create card by UI')
+def test_create_card(browser, cloud_session_token, board_api_client):
+    board_name = 'Board to create card'
+    list_name = 'List to create card'
+    # card_name = 'New test card'
+    board_api_client.create_board(board_name)
+
+    main_page = MainPage(browser, cloud_session_token)
+    main_page.go()
+
+    main_page.go_to_board(board_name)
+
+    board_page = BoardPage(browser, browser.current_url)
+    board_page.create_list(list_name)
