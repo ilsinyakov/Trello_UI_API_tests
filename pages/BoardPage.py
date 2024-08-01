@@ -1,10 +1,10 @@
-from time import sleep
+# from time import sleep
 from allure import step
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 # from ConfigProvider import ConfigProvider
-# from selenium.webdriver.support.ui import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 # from selenium.common.exceptions import TimeoutException
 
 
@@ -32,4 +32,22 @@ class BoardPage:
             close_board_button = self.driver.\
                 find_element(By.CLASS_NAME, 'js-close-board')
             close_board_button.click()
-            sleep(5)
+
+        with step('Click close board confirm button'):
+            # waiting for confirm pop-up window to display
+            WebDriverWait(self.driver, 4).until(
+                EC.presence_of_element_located((By.CLASS_NAME,
+                                                'pop-over-header-title'))
+                                                )
+            close_board_confirm_button = self.driver.\
+                find_element(By.CSS_SELECTOR,
+                             '[data-testid="close-board-confirm-button"]'
+                             )
+            close_board_confirm_button.click()
+
+        with step('Click delete board button'):
+            delete_board_button = self.driver.\
+                find_element(By.CSS_SELECTOR,
+                             '[data-testid="close-board-delete-board-button"]'
+                             )
+            delete_board_button.click()

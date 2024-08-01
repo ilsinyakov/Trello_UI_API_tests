@@ -1,4 +1,4 @@
-from time import sleep
+# from time import sleep
 from allure import step
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -53,16 +53,17 @@ class MainPage:
         create_board_submit_button.click()
 
     def is_board_present(self, board_name: str) -> bool:
-        board_name_element = self.driver.\
-            find_element(By.CSS_SELECTOR, '[data-testid="board-name-display"]')
-        if board_name_element.text == board_name:
-            return True
-        else:
-            return False
+        board_name_elements = self.driver.\
+            find_elements(By.XPATH, '//li/a/div/div/div')
+
+        for board_name_element in board_name_elements:
+            if board_name_element.text == board_name:
+                return True
+
+        return False
 
     @step('Go to board')
     def go_to_board(self, board_name: str) -> None:
         board_link = self.driver.\
             find_element(By.XPATH, f'//div[@title="{board_name}"]/ancestor::a')
         board_link.click()
-        sleep(10)

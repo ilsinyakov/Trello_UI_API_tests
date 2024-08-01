@@ -30,7 +30,7 @@ def test_create_board(browser, cloud_session_token, board_api_client):
 
 @allure.feature('Board')
 @allure.severity(severity_level.CRITICAL)
-@allure.title('Test create board by UI')
+@allure.title('Test delete board by UI')
 def test_delete_board(browser, cloud_session_token, board_api_client):
     board_name = 'Board to delete'
     board_api_client.create_board(board_name)
@@ -42,3 +42,9 @@ def test_delete_board(browser, cloud_session_token, board_api_client):
 
     board_page = BoardPage(browser, browser.current_url)
     board_page.delete_board()
+
+    main_page = MainPage(browser, browser.current_url)
+    with step('Check that deleted board is not present on main page'):
+        assert not main_page.is_board_present('board_name'), \
+            'Deleted board is present on main page'
+
