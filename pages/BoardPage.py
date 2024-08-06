@@ -52,29 +52,30 @@ class BoardPage:
                              )
             delete_board_button.click()
 
-    @step('Create list by UI')
-    def create_list(self, list_name: str) -> None:
-        with step('Click create list button'):
+    @step('Create card by UI')
+    def create_card(self, card_name: str) -> None:
+        with step('Click add card button'):
             sleep(3)
-            create_list_button = self.driver.\
-                find_element(By.CSS_SELECTOR,
-                             '[data-testid="list-composer-button"]'
+            add_card_button = self.driver.\
+                find_element(By.XPATH,
+                             '(//*[@data-testid="list-add-card-button"])[1]'
                              )
-            create_list_button.click()
+            add_card_button.click()
             sleep(3)
 
-        with step('Fill list name text area'):
-            list_name_text_area = self.driver.\
+        with step('Fill card name text area'):
+            card_name_text_area = self.driver.\
                 find_element(By.CSS_SELECTOR,
-                             '[data-testid="list-name-textarea"]'
+                             '[data-testid="list-card-composer-textarea"]'
                              )
-            list_name_text_area.send_keys(list_name)
+            card_name_text_area.send_keys(card_name)
             sleep(3)
 
         with step('Click submit button'):
             submit_button = self.driver.\
                 find_element(By.CSS_SELECTOR,
-                             '[data-testid="list-composer-add-list-button"]'
+                             '[data-testid=\
+                                "list-card-composer-add-card-button"]'
                              )
             submit_button.click()
             sleep(3)

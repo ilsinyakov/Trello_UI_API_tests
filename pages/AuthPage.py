@@ -35,14 +35,26 @@ class AuthPage:
         login_button = self.driver.find_element(By.ID, 'login-submit')
         login_button.click()
 
-        WebDriverWait(self.driver, 20).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR,
-                                              '[href^="https://trello.com"]'))
-            )
+        # Check that 2-way authentication window is present and click "dismiss"
+        try:
+            WebDriverWait(self.driver, 4).until(
+                EC.presence_of_element_located((By.ID,
+                                                'mfa-promote-continue'))
+                                                )
+            dismiss_button = self.driver.find_element(By.ID,
+                                                      'mfa-promote-dismiss')
+            dismiss_button.click()
 
-        trello_link = self.driver.\
-            find_element(By.CSS_SELECTOR, '[href^="https://trello.com"]')
-        trello_link.click()
+        finally:
+            WebDriverWait(self.driver, 20).until(
+                EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                                 '[href^=\
+                                                    "https://trello.com"]'))
+                )
+
+            trello_link = self.driver.\
+                find_element(By.CSS_SELECTOR, '[href^="https://trello.com"]')
+            trello_link.click()
 
     @step('Get cloud session token')
     def get_cloud_session_token(self) -> str:
