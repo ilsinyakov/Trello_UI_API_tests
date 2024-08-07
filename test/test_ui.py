@@ -73,11 +73,15 @@ def test_create_card(browser, cloud_session_token, board_api_client):
     with step('Check that the created board has been deleted'):
         assert status_code == 200, 'The created board has not been deleted'
 
+
 @allure.feature('Card')
 @allure.severity(severity_level.CRITICAL)
 @allure.title('Test update card by UI')
-def test_create_card(browser, cloud_session_token, board_api_client):
+def test_update_card(browser, cloud_session_token,
+                     board_api_client, card_api_client):
     board_name = 'Board to update card'
     card_name = 'Test card 3333'
     board_id = board_api_client.create_board(board_name)["id"]
-    
+    list_id = board_api_client.get_lists_on_board(board_id)[0]["id"]
+
+    card_api_client.create_card(list_id, card_name)

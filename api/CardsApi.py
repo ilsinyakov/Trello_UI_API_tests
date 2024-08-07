@@ -1,5 +1,5 @@
-# import requests
-# from allure import step
+import requests
+from allure import step
 
 
 class CardsApi:
@@ -8,4 +8,15 @@ class CardsApi:
         self.api_key = api_key
         self.token = token
 
-    # def get_card_list(self, )
+    @step("Create card by API")
+    def create_card(self, list_id: str, card_name: str) -> dict:
+        path = (
+            f'{self.base_url}/cards/?idList={list_id}'
+            f'&key={self.api_key}&token={self.token}'
+        )
+        body = {
+            "name": card_name
+        }
+
+        resp = requests.post(path, json=body)
+        return resp.json()

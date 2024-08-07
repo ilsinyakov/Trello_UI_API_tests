@@ -27,6 +27,15 @@ class BoardsApi:
         resp = requests.get(path)
         return resp.json()
 
+    @step('Get lists on board by API')
+    def get_lists_on_board(self, board_id: str) -> list:
+        path = (
+            f'{self.base_url}/boards/'
+            f'{board_id}/lists?key={self.api_key}&token={self.token}'
+        )
+        resp = requests.get(path)
+        return resp.json()
+
     @step('Delete board by ID by API')
     def delete_board_by_id(self, board_id: str) -> int:
         path = (
