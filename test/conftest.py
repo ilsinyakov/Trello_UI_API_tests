@@ -4,6 +4,7 @@ import pytest
 
 from pages.AuthPage import AuthPage
 from api.BoardsApi import BoardsApi
+from api.CardsApi import CardsApi
 from ConfigProvider import ConfigProvider
 from DataProvider import DataProvider
 # from time import sleep
@@ -31,6 +32,12 @@ def browser():
 def board_api_client() -> BoardsApi:
     with allure.step('Create boards API client'):
         return BoardsApi(base_url, api_key, token)
+
+
+@pytest.fixture
+def card_api_client() -> CardsApi:
+    with allure.step('Create cards API client'):
+        return CardsApi(base_url, api_key, token)
 
 
 # @pytest.fixture

@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 from ConfigProvider import ConfigProvider
 
 
@@ -45,7 +46,7 @@ class AuthPage:
                                                       'mfa-promote-dismiss')
             dismiss_button.click()
 
-        finally:
+        except TimeoutException:
             WebDriverWait(self.driver, 20).until(
                 EC.visibility_of_element_located((By.CSS_SELECTOR,
                                                  '[href^=\

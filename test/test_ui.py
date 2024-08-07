@@ -55,8 +55,7 @@ def test_delete_board(browser, cloud_session_token, board_api_client):
 def test_create_card(browser, cloud_session_token, board_api_client):
     board_name = 'Board to create card'
     card_name = 'Test card 2222'
-    # card_name = 'New test card'
-    board_api_client.create_board(board_name)
+    board_id = board_api_client.create_board(board_name)["id"]
 
     main_page = MainPage(browser, cloud_session_token)
     main_page.go()
@@ -65,3 +64,20 @@ def test_create_card(browser, cloud_session_token, board_api_client):
 
     board_page = BoardPage(browser, browser.current_url)
     board_page.create_card(card_name)
+
+    with step('Check that new card name is present'):
+        assert board_page.is_card_present(card_name), \
+            'New card name is not present'
+
+    status_code = board_api_client.delete_board_by_id(board_id)
+    with step('Check that the created board has been deleted'):
+        assert status_code == 200, 'The created board has not been deleted'
+
+@allure.feature('Card')
+@allure.severity(severity_level.CRITICAL)
+@allure.title('Test update card by UI')
+def test_create_card(browser, cloud_session_token, board_api_client):
+    board_name = 'Board to update card'
+    card_name = 'Test card 3333'
+    board_id = board_api_client.create_board(board_name)["id"]
+    

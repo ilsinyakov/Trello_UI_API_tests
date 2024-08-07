@@ -21,6 +21,14 @@ class BoardPage:
         else:
             return False
 
+    def is_card_present(self, card_name: str) -> bool:
+        card_name_element = self.driver.\
+            find_element(By.CSS_SELECTOR, '[data-testid="card-name"]')
+        if card_name_element.text == card_name:
+            return True
+        else:
+            return False
+
     @step('Delete board by UI')
     def delete_board(self) -> None:
         with step('Click menu button'):
