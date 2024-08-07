@@ -81,7 +81,16 @@ def test_update_card(browser, cloud_session_token,
                      board_api_client, card_api_client):
     board_name = 'Board to update card'
     card_name = 'Test card 3333'
+    new_card_name = 'Updated card name'
     board_id = board_api_client.create_board(board_name)["id"]
     list_id = board_api_client.get_lists_on_board(board_id)[0]["id"]
 
     card_api_client.create_card(list_id, card_name)
+
+    main_page = MainPage(browser, cloud_session_token)
+    main_page.go()
+
+    main_page.go_to_board(board_name)
+
+    board_page = BoardPage(browser, browser.current_url)
+    board_page.update_card(card_name, new_card_name)

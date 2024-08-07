@@ -87,3 +87,22 @@ class BoardPage:
                              )
             submit_button.click()
             sleep(3)
+
+    @step('Update card by UI')
+    def update_card(self, card_name: str, new_card_name: str) -> None:
+        go_to_card_button = self.driver.\
+            find_element(By.XPATH, f'//a[contains(text(), "{card_name}")]')
+        with step('CLick on card'):
+            go_to_card_button.click()
+
+        with step('Enter new card name'):
+            card_name_text_area = self.driver.\
+                find_element(By.CSS_SELECTOR,
+                             '[data-testid="card-back-title-input"]')
+            card_name_text_area.clear()
+            card_name_text_area.send_keys(new_card_name)
+
+        with step('Click close icon'):
+            close_icon = self.driver.\
+                find_element(By.CSS_SELECTOR, '[data-testid="CloseIcon"]')
+            close_icon.click()
