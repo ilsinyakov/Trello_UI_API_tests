@@ -94,3 +94,70 @@ def test_update_card(browser, cloud_session_token,
 
     board_page = BoardPage(browser, browser.current_url)
     board_page.update_card(card_name, new_card_name)
+
+    with step('Check that new card name is present'):
+        assert board_page.is_card_present(new_card_name), \
+            'New card name is not present'
+
+    status_code = board_api_client.delete_board_by_id(board_id)
+    with step('Check that the created board has been deleted'):
+        assert status_code == 200, 'The created board has not been deleted'
+
+
+@allure.feature('Card')
+@allure.severity(severity_level.CRITICAL)
+@allure.title('Test delete card by UI')
+def test_delete_card(browser, cloud_session_token,
+                     board_api_client, card_api_client):
+    board_name = 'Board to delete card'
+    card_name = 'Test card to delete'
+
+    board_id = board_api_client.create_board(board_name)["id"]
+    list_id = board_api_client.get_lists_on_board(board_id)[0]["id"]
+
+    card_api_client.create_card(list_id, card_name)
+
+    main_page = MainPage(browser, cloud_session_token)
+    main_page.go()
+    main_page.go_to_board(board_name)
+
+    board_page = BoardPage(browser, browser.current_url)
+    board_page.delete_card(card_name)
+
+    with step('Check that deleted card is not present'):
+        assert not board_page.is_card_present(card_name), \
+            'Deleted card is present'
+
+    status_code = board_api_client.delete_board_by_id(board_id)
+    with step('Check that the created board has been deleted'):
+        assert status_code == 200, 'The created board has not been deleted'
+
+
+@allure.feature('Card')
+@allure.severity(severity_level.CRITICAL)
+@allure.title('Test move card by UI')
+def test_move_card(browser, cloud_session_token,
+                   board_api_client, card_api_client):
+    board_name = 'Board to move card'
+    card_name = 'Test card to move'
+    list_num = '2'  # number of list to which we will move the card
+
+    board_id = board_api_client.create_board(board_name)["id"]
+    list_id = board_api_client.get_lists_on_board(board_id)[0]["id"]
+
+    card_api_client.create_card(list_id, card_name)
+
+    main_page = MainPage(browser, cloud_session_token)
+    main_page.go()
+    main_page.go_to_board(board_name)
+
+    board_page = BoardPage(browser, browser.current_url)
+    board_page.move_card(card_name, list_num)
+
+    with step('Check that card is present in another list'):
+        assert board_page.is_card_present_in_list(card_name, list_num), \
+            'Card is not present in another list'
+
+    status_code = board_api_client.delete_board_by_id(board_id)
+    with step('Check that the created board has been deleted'):
+        assert status_code == 200, 'The created board has not been deleted'
