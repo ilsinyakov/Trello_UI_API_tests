@@ -55,3 +55,12 @@ class BoardsApi:
                 board_id_to_delete = board["id"]
 
         return self.delete_board_by_id(board_id_to_delete)
+
+    def is_board_in_list(self, board_name: str) -> bool:
+        board_list = self.get_board_list()
+
+        for board in board_list:
+            if board["name"] == board_name:
+                return True
+
+        return False
