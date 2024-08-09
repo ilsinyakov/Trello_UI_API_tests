@@ -43,5 +43,7 @@ def test_create_card(board_api_client, card_api_client, list_api_client):
     list_id = board_api_client.get_lists_on_board(board_id)[0]["id"]
 
     card_id = card_api_client.create_card(list_id, card_name)["id"]
-    
-    
+
+    with step('Check that created card is in the list'):
+        assert list_api_client.is_card_in_list(list_id, card_id), \
+            'Created card is not in the list'

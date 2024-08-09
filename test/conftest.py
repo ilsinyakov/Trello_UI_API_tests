@@ -40,6 +40,7 @@ def card_api_client() -> CardsApi:
     with allure.step('Create cards API client'):
         return CardsApi(base_url, api_key, token)
 
+
 @pytest.fixture
 def list_api_client() -> ListsApi:
     with allure.step('Create lists API client'):
