@@ -20,10 +20,8 @@ class ListsApi:
 
     def is_card_in_list(self, list_id: str, card_id: str) -> bool:
         cards = self.get_cards(list_id)
-        print('\n', cards)
 
         for card in cards:
-            print('\n', card)
             if card["id"] == card_id:
                 return True
 

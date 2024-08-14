@@ -47,22 +47,6 @@ def list_api_client() -> ListsApi:
         return ListsApi(base_url, api_key, token)
 
 
-# @pytest.fixture
-# def board_id_to_delete() -> str:
-#     api = BoardsApi(base_url, token)
-#     json = api.post_board('to_delete')
-#     return json["id"]
-
-
-# @pytest.fixture
-# def delete_board():
-#     dictionary = {"board_id": ""}
-#     yield dictionary
-
-#     api = BoardsApi(base_url, token)
-#     api.delete_board(dictionary.get("board_id"))
-
-
 @pytest.fixture
 def test_data():
     return DataProvider()

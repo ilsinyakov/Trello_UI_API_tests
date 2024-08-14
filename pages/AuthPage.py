@@ -59,5 +59,4 @@ class AuthPage:
 
     @step('Get cloud session token')
     def get_cloud_session_token(self) -> str:
-        print(self.driver.get_cookie('cloud.session.token')['value'])
         return self.driver.get_cookie('cloud.session.token')['value']
