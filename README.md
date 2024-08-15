@@ -20,12 +20,18 @@
 
 ## Run UI tests
 
-pytest test/test_ui.py
+`pytest test/test_ui.py`
 
 ## Run API tests
 
-pytest test/test_api.py
+`pytest test/test_api.py`
 
 ## Run all of tests
 
-pytest
+`pytest`
+
+## Allure report
+
+### Generate allure web-report
+
+`allure serve allure-files`

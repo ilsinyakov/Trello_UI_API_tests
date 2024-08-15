@@ -1,5 +1,6 @@
 import requests
 from allure import step
+from time import sleep
 
 
 class BoardsApi:
@@ -16,24 +17,6 @@ class BoardsApi:
         )
 
         resp = requests.post(path)
-        return resp.json()
-
-    @step('Get board list by API')
-    def get_board_list(self) -> list:
-        path = (
-            f'{self.base_url}/members/me/boards/'
-            f'?key={self.api_key}&token={self.token}'
-        )
-        resp = requests.get(path)
-        return resp.json()
-
-    @step('Get lists on board by API')
-    def get_lists_on_board(self, board_id: str) -> list:
-        path = (
-            f'{self.base_url}/boards/'
-            f'{board_id}/lists?key={self.api_key}&token={self.token}'
-        )
-        resp = requests.get(path)
         return resp.json()
 
     @step('Delete board by ID by API')
@@ -56,7 +39,26 @@ class BoardsApi:
 
         return self.delete_board_by_id(board_id_to_delete)
 
+    @step('Get board list by API')
+    def get_board_list(self) -> list:
+        path = (
+            f'{self.base_url}/members/me/boards/'
+            f'?key={self.api_key}&token={self.token}'
+        )
+        resp = requests.get(path)
+        return resp.json()
+
+    @step('Get lists on board by API')
+    def get_lists_on_board(self, board_id: str) -> list:
+        path = (
+            f'{self.base_url}/boards/'
+            f'{board_id}/lists?key={self.api_key}&token={self.token}'
+        )
+        resp = requests.get(path)
+        return resp.json()
+
     def is_board_in_list(self, board_name: str) -> bool:
+        sleep(2)  # too fast. API doesn't work so fast
         board_list = self.get_board_list()
 
         for board in board_list:
