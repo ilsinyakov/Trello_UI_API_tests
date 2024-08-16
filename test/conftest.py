@@ -8,7 +8,6 @@ from api.CardsApi import CardsApi
 from api.ListsApi import ListsApi
 from ConfigProvider import ConfigProvider
 from DataProvider import DataProvider
-# from time import sleep
 
 
 base_url = ConfigProvider().get("api", "base_url")

@@ -1,4 +1,3 @@
-# from time import sleep
 import allure
 from allure import severity_level
 from allure import step
