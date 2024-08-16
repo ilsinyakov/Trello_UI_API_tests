@@ -166,3 +166,6 @@ test_data.json
 
 # allure
 allure-files/
+
+# VSC
+.vscode/
